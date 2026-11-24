@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<testsuites>
+	<testcase name="search defaults to the original experiment" classname="test" file="./tests/integration/cli.test.js"/>
+	<testcase name="search accepts include-seeds" classname="test" file="./tests/integration/cli.test.js"/>
+	<testcase name="term, sample and pisano commands produce JSON" classname="test" file="./tests/integration/cli.test.js"/>
+	<testcase name="help exits zero and a missing command exits two" classname="test" file="./tests/integration/cli.test.js"/>
+	<testcase name="usage error for: unknown" classname="test" file="./tests/integration/cli.test.js"/>
+	<testcase name="usage error for: constructor" classname="test" file="./tests/integration/cli.test.js"/>
+	<testcase name="usage error for: __proto__" classname="test" file="./tests/integration/cli.test.js"/>
+	<testcase name="usage error for: term" classname="test" file="./tests/integration/cli.test.js"/>
+	<testcase name="usage error for: term --index abc" classname="test" file="./tests/integration/cli.test.js"/>
+	<testcase name="usage error for: term --index 100001" classname="test" file="./tests/integration/cli.test.js"/>
+	<testcase name="usage error for: search --nope" classname="test" file="./tests/integration/cli.test.js"/>
+	<testcase name="usage error for: search positional" classname="test" file="./tests/integration/cli.test.js"/>
+	<testcase name="usage error for: pisano --modulus 0" classname="test" file="./tests/integration/cli.test.js"/>
+	<testcase name="the executable runs end to end" classname="test" file="./tests/integration/cli.test.js"/>
+	<testcase name="serve binds, answers and stops on SIGTERM" classname="test" file="./tests/integration/cli.test.js"/>
+	<testcase name="serve rejects invalid configuration" classname="test" file="./tests/integration/cli.test.js"/>
+	<testcase name="root lists the endpoints" classname="test" file="./tests/integration/http.test.js"/>
+	<testcase name="health endpoint responds" classname="test" file="./tests/integration/http.test.js"/>
+	<testcase name="every response carries the security headers" classname="test" file="./tests/integration/http.test.js"/>
+	<testcase name="term endpoint serializes big values as strings" classname="test" file="./tests/integration/http.test.js"/>
+	<testcase name="odd search defaults to the original experiment" classname="test" file="./tests/integration/http.test.js"/>
+	<testcase name="odd search honors includeSeeds" classname="test" file="./tests/integration/http.test.js"/>
+	<testcase name="parity sample is reproducible over HTTP" classname="test" file="./tests/integration/http.test.js"/>
+	<testcase name="pisano endpoint responds" classname="test" file="./tests/integration/http.test.js"/>
+	<testcase name="rejects /v1/terms/-1" classname="test" file="./tests/integration/http.test.js"/>
+	<testcase name="rejects /v1/terms/1e3" classname="test" file="./tests/integration/http.test.js"/>
+	<testcase name="rejects /v1/terms/007" classname="test" file="./tests/integration/http.test.js"/>
+	<testcase name="rejects /v1/terms/100001" classname="test" file="./tests/integration/http.test.js"/>
+	<testcase name="rejects /v1/terms/%31" classname="test" file="./tests/integration/http.test.js"/>
+	<testcase name="rejects /v1/terms/1?extra=1" classname="test" file="./tests/integration/http.test.js"/>
+	<testcase name="rejects /v1/odd-search?target=60001" classname="test" file="./tests/integration/http.test.js"/>
+	<testcase name="rejects /v1/odd-search?target=1&amp;target=2" classname="test" file="./tests/integration/http.test.js"/>
+	<testcase name="rejects /v1/odd-search?includeSeeds=maybe" classname="test" file="./tests/integration/http.test.js"/>
+	<testcase name="rejects /v1/odd-search?unknown=1" classname="test" file="./tests/integration/http.test.js"/>
+	<testcase name="rejects /v1/parity-sample?samples=20001" classname="test" file="./tests/integration/http.test.js"/>
+	<testcase name="rejects /v1/parity-sample?seed=4294967296" classname="test" file="./tests/integration/http.test.js"/>
+	<testcase name="rejects /v1/pisano/0" classname="test" file="./tests/integration/http.test.js"/>
+	<testcase name="rejects /v1/pisano/100001" classname="test" file="./tests/integration/http.test.js"/>
+	<testcase name="rejects //evil.invalid/healthz" classname="test" file="./tests/integration/http.test.js"/>
+	<testcase name="rejects /healthz?padding=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" classname="test" file="./tests/integration/http.test.js"/>
+	<testcase name="unknown paths return 404" classname="test" file="./tests/integration/http.test.js"/>
+	<testcase name="POST is rejected with an Allow header" classname="test" file="./tests/integration/http.test.js"/>
+	<testcase name="PUT is rejected with an Allow header" classname="test" file="./tests/integration/http.test.js"/>
+	<testcase name="PATCH is rejected with an Allow header" classname="test" file="./tests/integration/http.test.js"/>
+	<testcase name="DELETE is rejected with an Allow header" classname="test" file="./tests/integration/http.test.js"/>
+	<testcase name="HEAD returns headers without a body" classname="test" file="./tests/integration/http.test.js"/>
+	<testcase name="server configuration defaults to loopback" classname="test" file="./tests/integration/http.test.js"/>
+	<testcase name="server configuration rejects invalid values" classname="test" file="./tests/integration/http.test.js"/>
+	<testcase name="schema applies and stores a valid result" classname="test" file="./tests/integration/schema.test.js"/>
+	<testcase name="schema is idempotent" classname="test" file="./tests/integration/schema.test.js"/>
+	<testcase name="schema rejects an inconsistent even count" classname="test" file="./tests/integration/schema.test.js"/>
+	<testcase name="schema rejects a non-numeric terminal value" classname="test" file="./tests/integration/schema.test.js"/>
+	<testcase name="schema rejects a missing parent run" classname="test" file="./tests/integration/schema.test.js"/>
+	<testcase name="schema rejects a period above the 6m bound" classname="test" file="./tests/integration/schema.test.js"/>
+	<testcase name="schema rejects a seed outside 32 bits" classname="test" file="./tests/integration/schema.test.js"/>
+	<testcase name="deleting a run cascades to its results" classname="test" file="./tests/integration/schema.test.js"/>
+	<testcase name="fast doubling agrees with linear iteration" classname="test" file="./tests/property/fibonacci.property.test.js"/>
+	<testcase name="the recurrence holds" classname="test" file="./tests/property/fibonacci.property.test.js"/>
+	<testcase name="Cassini identity holds" classname="test" file="./tests/property/fibonacci.property.test.js"/>
+	<testcase name="the gcd identity holds" classname="test" file="./tests/property/fibonacci.property.test.js"/>
+	<testcase name="modular evaluation agrees with exact reduction" classname="test" file="./tests/property/fibonacci.property.test.js"/>
+	<testcase name="a term is odd exactly when its index is not divisible by three" classname="test" file="./tests/property/fibonacci.property.test.js"/>
+	<testcase name="indexOfOddTerm inverts countOddTerms" classname="test" file="./tests/property/fibonacci.property.test.js"/>
+	<testcase name="closed-form search agrees with the simulated legacy loop" classname="test" file="./tests/property/fibonacci.property.test.js"/>
+	<testcase name="the Pisano period is the minimal period and respects the 6m bound" classname="test" file="./tests/property/fibonacci.property.test.js"/>
+	<testcase name="uniformInteger stays inside the requested range" classname="test" file="./tests/property/fibonacci.property.test.js"/>
+	<testcase name="uniformInteger passes a chi-square uniformity test" classname="test" file="./tests/statistical/sampling.statistical.test.js"/>
+	<testcase name="uniformInteger rejects draws above the unbiased limit" classname="test" file="./tests/statistical/sampling.statistical.test.js"/>
+	<testcase name="95 percent Wilson intervals cover the exact proportion near the nominal rate" classname="test" file="./tests/statistical/sampling.statistical.test.js"/>
+	<testcase name="the estimate converges to two thirds" classname="test" file="./tests/statistical/sampling.statistical.test.js"/>
+	<testcase name="search reproduces the result of the original 2020 script" classname="test" file="./tests/unit/experiments.test.js"/>
+	<testcase name="search can count the two seed terms" classname="test" file="./tests/unit/experiments.test.js"/>
+	<testcase name="search enforces its bounds" classname="test" file="./tests/unit/experiments.test.js"/>
+	<testcase name="parity counters handle the boundaries" classname="test" file="./tests/unit/experiments.test.js"/>
+	<testcase name="pisano matches the published periods" classname="test" file="./tests/unit/experiments.test.js"/>
+	<testcase name="pisano rejects out of range moduli" classname="test" file="./tests/unit/experiments.test.js"/>
+	<testcase name="term description reports value and parity" classname="test" file="./tests/unit/experiments.test.js"/>
+	<testcase name="wilson interval matches reference values" classname="test" file="./tests/unit/experiments.test.js"/>
+	<testcase name="wilson interval rejects impossible counts" classname="test" file="./tests/unit/experiments.test.js"/>
+	<testcase name="sampling is reproducible for a fixed seed" classname="test" file="./tests/unit/experiments.test.js"/>
+	<testcase name="sampling keeps its golden output for seed 7" classname="test" file="./tests/unit/experiments.test.js"/>
+	<testcase name="sampling validates every parameter" classname="test" file="./tests/unit/experiments.test.js"/>
+	<testcase name="fibonacci matches the published initial terms" classname="test" file="./tests/unit/fibonacci.test.js"/>
+	<testcase name="fibonacci stays exact beyond the safe integer range" classname="test" file="./tests/unit/fibonacci.test.js"/>
+	<testcase name="fibonacciTerms yields the sequence from index one" classname="test" file="./tests/unit/fibonacci.test.js"/>
+	<testcase name="fibonacciModulo handles modulus one and large indices" classname="test" file="./tests/unit/fibonacci.test.js"/>
+	<testcase name="fibonacci rejects -1" classname="test" file="./tests/unit/fibonacci.test.js"/>
+	<testcase name="fibonacci rejects 1.5" classname="test" file="./tests/unit/fibonacci.test.js"/>
+	<testcase name="fibonacci rejects NaN" classname="test" file="./tests/unit/fibonacci.test.js"/>
+	<testcase name="fibonacci rejects Infinity" classname="test" file="./tests/unit/fibonacci.test.js"/>
+	<testcase name="fibonacci rejects 7" classname="test" file="./tests/unit/fibonacci.test.js"/>
+	<testcase name="fibonacci rejects 7" classname="test" file="./tests/unit/fibonacci.test.js"/>
+	<testcase name="fibonacci rejects null" classname="test" file="./tests/unit/fibonacci.test.js"/>
+	<testcase name="fibonacciModulo rejects a zero modulus" classname="test" file="./tests/unit/fibonacci.test.js"/>
+	<!-- tests 94 -->
+	<!-- suites 0 -->
+	<!-- pass 94 -->
+	<!-- fail 0 -->
+	<!-- cancelled 0 -->
+	<!-- skipped 0 -->
+	<!-- todo 0 -->
+	</testsuites>
