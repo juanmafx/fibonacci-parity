@@ -6,6 +6,10 @@ import { createApiServer } from '../src/interfaces/http/server.js';
 function serve() {
   const { host, port } = loadServerConfig(process.env);
   const server = createApiServer();
+  server.on('error', (error) => {
+    console.error(`Server failed to start: ${error.code ?? error.message}`);
+    process.exit(1);
+  });
   server.listen(port, host, () => {
     const address = server.address();
     console.log(`Listening on ${address.address}:${address.port}`);

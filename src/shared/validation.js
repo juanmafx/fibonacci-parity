@@ -12,6 +12,11 @@ export function requireIntegerInRange(value, name, min, max) {
   return value;
 }
 
+export function requireBoolean(value, name) {
+  if (typeof value !== 'boolean') throw new ValidationError(`${name} must be true or false`);
+  return value;
+}
+
 export function parseIntegerInRange(text, name, min, max) {
   if (typeof text !== 'string' || !/^(0|[1-9]\d{0,15})$/.test(text)) {
     throw new ValidationError(`${name} must be an integer between ${min} and ${max}`);

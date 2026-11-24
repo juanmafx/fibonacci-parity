@@ -37,3 +37,7 @@ The original script had no version number. It is treated as the implicit 1.x lin
 ### Security
 
 - Added strict input limits, security headers, request timeouts, and a loopback default bind.
+- Rejected request targets that change under URL normalization, including backslashes, dot segments, encoded dot segments, and fragments.
+- Enforced header and request timeouts on a one-second sweep instead of the 30-second runtime default.
+- Reported bind failures as a one-line error instead of an uncaught exception.
+- Rejected non-boolean `includeSeeds` values in the library API.

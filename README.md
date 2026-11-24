@@ -1,6 +1,6 @@
 # sigularesEnFivona
 
-Exact Fibonacci parity analysis in dependency-free Node.js, available as a library, a CLI, and a hardened read-only HTTP API.
+Exact Fibonacci parity analysis in dependency-free Node.js, available as a library, a CLI, and an input-validated read-only HTTP API.
 
 > **Project history:** originally created in 2020 as a single exploratory script, modernized in 2026.
 
@@ -41,7 +41,7 @@ db/schema.sql             Optional SQLite schema
 reports/tests/            Report from a real test run
 ```
 
-Dependencies point inward: interfaces call experiments, experiments call the domain, and the domain performs no I/O. The project has no client application, so there is no `frontend/` and `backend/` split.
+Dependencies point inward: interfaces call the application layer and experiments, those call the domain, every layer may use `shared`, and the domain performs no I/O. The project has no client application, so there is no `frontend/` and `backend/` split.
 
 ## Quick start
 

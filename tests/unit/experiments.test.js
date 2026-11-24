@@ -35,6 +35,7 @@ test('search can count the two seed terms', () => {
 
 test('search enforces its bounds', () => {
   assert.throws(() => searchOddTerm({ target: 0 }), ValidationError);
+  assert.throws(() => searchOddTerm({ target: 5, includeSeeds: 'false' }), ValidationError);
   assert.throws(() => searchOddTerm({ target: LIMITS.maxOddTarget + 1 }), ValidationError);
   assert.ok(searchOddTerm({ target: LIMITS.maxOddTarget }).sequenceLength <= LIMITS.maxIndex);
 });

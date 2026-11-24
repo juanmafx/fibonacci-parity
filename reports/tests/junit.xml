@@ -15,6 +15,7 @@
 	<testcase name="usage error for: pisano --modulus 0" classname="test" file="./tests/integration/cli.test.js"/>
 	<testcase name="the executable runs end to end" classname="test" file="./tests/integration/cli.test.js"/>
 	<testcase name="serve binds, answers and stops on SIGTERM" classname="test" file="./tests/integration/cli.test.js"/>
+	<testcase name="serve reports a bind failure without a stack trace" classname="test" file="./tests/integration/cli.test.js"/>
 	<testcase name="serve rejects invalid configuration" classname="test" file="./tests/integration/cli.test.js"/>
 	<testcase name="root lists the endpoints" classname="test" file="./tests/integration/http.test.js"/>
 	<testcase name="health endpoint responds" classname="test" file="./tests/integration/http.test.js"/>
@@ -39,6 +40,13 @@
 	<testcase name="rejects /v1/pisano/0" classname="test" file="./tests/integration/http.test.js"/>
 	<testcase name="rejects /v1/pisano/100001" classname="test" file="./tests/integration/http.test.js"/>
 	<testcase name="rejects //evil.invalid/healthz" classname="test" file="./tests/integration/http.test.js"/>
+	<testcase name="rejects /\evil.invalid/healthz" classname="test" file="./tests/integration/http.test.js"/>
+	<testcase name="rejects /v1/terms/../pisano/10" classname="test" file="./tests/integration/http.test.js"/>
+	<testcase name="rejects /v1/./terms/5" classname="test" file="./tests/integration/http.test.js"/>
+	<testcase name="rejects /%2e%2e/healthz" classname="test" file="./tests/integration/http.test.js"/>
+	<testcase name="rejects /v1/%2E%2E/healthz" classname="test" file="./tests/integration/http.test.js"/>
+	<testcase name="rejects /healthz#fragment" classname="test" file="./tests/integration/http.test.js"/>
+	<testcase name="rejects /healthz?" classname="test" file="./tests/integration/http.test.js"/>
 	<testcase name="rejects /healthz?padding=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" classname="test" file="./tests/integration/http.test.js"/>
 	<testcase name="unknown paths return 404" classname="test" file="./tests/integration/http.test.js"/>
 	<testcase name="POST is rejected with an Allow header" classname="test" file="./tests/integration/http.test.js"/>
@@ -46,6 +54,8 @@
 	<testcase name="PATCH is rejected with an Allow header" classname="test" file="./tests/integration/http.test.js"/>
 	<testcase name="DELETE is rejected with an Allow header" classname="test" file="./tests/integration/http.test.js"/>
 	<testcase name="HEAD returns headers without a body" classname="test" file="./tests/integration/http.test.js"/>
+	<testcase name="unexpected errors return a generic 500 and are logged" classname="test" file="./tests/integration/http.test.js"/>
+	<testcase name="an incomplete request is closed soon after the headers timeout" classname="test" file="./tests/integration/http.test.js"/>
 	<testcase name="server configuration defaults to loopback" classname="test" file="./tests/integration/http.test.js"/>
 	<testcase name="server configuration rejects invalid values" classname="test" file="./tests/integration/http.test.js"/>
 	<testcase name="schema applies and stores a valid result" classname="test" file="./tests/integration/schema.test.js"/>
@@ -94,9 +104,9 @@
 	<testcase name="fibonacci rejects 7" classname="test" file="./tests/unit/fibonacci.test.js"/>
 	<testcase name="fibonacci rejects null" classname="test" file="./tests/unit/fibonacci.test.js"/>
 	<testcase name="fibonacciModulo rejects a zero modulus" classname="test" file="./tests/unit/fibonacci.test.js"/>
-	<!-- tests 94 -->
+	<!-- tests 104 -->
 	<!-- suites 0 -->
-	<!-- pass 94 -->
+	<!-- pass 104 -->
 	<!-- fail 0 -->
 	<!-- cancelled 0 -->
 	<!-- skipped 0 -->

@@ -1,7 +1,7 @@
 {
   "name": "sigulares-en-fivona",
   "version": "2.0.0",
-  "description": "Exact Fibonacci parity analysis with a CLI and a hardened read-only HTTP API.",
+  "description": "Exact Fibonacci parity analysis with a CLI and an input-validated read-only HTTP API.",
   "private": true,
   "license": "UNLICENSED",
   "type": "module",

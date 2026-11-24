@@ -4,6 +4,7 @@ import { resolveRoute } from './router.js';
 
 const MAX_REQUEST_TARGET_LENGTH = 512;
 const ALLOWED_METHODS = 'GET, HEAD';
+const CONNECTION_CHECK_INTERVAL_MS = 1_000;
 
 const SECURITY_HEADERS = Object.freeze({
   'Cache-Control': 'no-store',
@@ -33,13 +34,14 @@ function parseTarget(requestTarget) {
     return null;
   }
   try {
-    return new URL(requestTarget, 'http://service.invalid');
+    const target = new URL(requestTarget, 'http://service.invalid');
+    return `${target.pathname}${target.search}` === requestTarget ? target : null;
   } catch {
     return null;
   }
 }
 
-function handleRequest(request, response, logError) {
+function handleRequest(request, response, { logError, resolve }) {
   if (request.method !== 'GET' && request.method !== 'HEAD') {
     sendJson(response, 405, { error: 'method not allowed' }, { Allow: ALLOWED_METHODS });
     return;
@@ -49,7 +51,7 @@ function handleRequest(request, response, logError) {
     sendJson(response, 400, { error: 'invalid request target' });
     return;
   }
-  const route = resolveRoute(target.pathname, target.searchParams);
+  const route = resolve(target.pathname, target.searchParams);
   if (!route) {
     sendJson(response, 404, { error: 'not found' });
     return;
@@ -66,8 +68,10 @@ function handleRequest(request, response, logError) {
   }
 }
 
-export function createApiServer({ logError = console.error } = {}) {
-  const server = createServer((request, response) => handleRequest(request, response, logError));
+export function createApiServer({ logError = console.error, resolve = resolveRoute } = {}) {
+  const server = createServer({ connectionsCheckingInterval: CONNECTION_CHECK_INTERVAL_MS }, (request, response) =>
+    handleRequest(request, response, { logError, resolve }),
+  );
   server.headersTimeout = 5_000;
   server.requestTimeout = 10_000;
   server.keepAliveTimeout = 5_000;

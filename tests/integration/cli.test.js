@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { spawn, spawnSync } from 'node:child_process';
 import { once } from 'node:events';
+import { createServer } from 'node:net';
 import { test } from 'node:test';
 import { fileURLToPath } from 'node:url';
 import { runCli } from '../../src/interfaces/cli/run.js';
@@ -75,6 +76,20 @@ test('serve binds, answers and stops on SIGTERM', async () => {
   child.kill('SIGTERM');
   const [code] = await once(child, 'exit');
   assert.equal(code, 0);
+});
+
+test('serve reports a bind failure without a stack trace', async () => {
+  const blocker = createServer();
+  await new Promise((resolve) => blocker.listen(0, '127.0.0.1', resolve));
+  const result = spawnSync(process.execPath, [BIN, 'serve'], {
+    env: { PATH: process.env.PATH, HOST: '127.0.0.1', PORT: String(blocker.address().port) },
+    encoding: 'utf8',
+    timeout: 5_000,
+  });
+  await new Promise((resolve) => blocker.close(resolve));
+  assert.equal(result.status, 1);
+  assert.match(result.stderr, /EADDRINUSE/);
+  assert.doesNotMatch(result.stderr, /\n\s+at /);
 });
 
 test('serve rejects invalid configuration', () => {

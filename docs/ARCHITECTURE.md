@@ -47,6 +47,10 @@ flowchart LR
   EXP --> STAT[statistics]
   DOM --> SHARED[shared]
   EXP --> SHARED
+  APP --> SHARED
+  RNG --> SHARED
+  CLI --> SHARED
+  HTTP --> SHARED
 ```
 
 The repository contains no client code, so a `frontend/` and `backend/` split does not apply. A future client should live in `frontend/`, with the current service moving to `backend/`.

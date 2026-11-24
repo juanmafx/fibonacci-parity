@@ -1,6 +1,8 @@
 import assert from 'node:assert/strict';
 import { after, before, test } from 'node:test';
+import { once } from 'node:events';
 import { request as httpRequest } from 'node:http';
+import { connect } from 'node:net';
 import { createApiServer } from '../../src/interfaces/http/server.js';
 import { loadServerConfig } from '../../src/interfaces/http/config.js';
 import { ValidationError } from '../../src/index.js';
@@ -8,9 +10,9 @@ import { ValidationError } from '../../src/index.js';
 let server;
 let port;
 
-function send(path, method = 'GET') {
+function send(path, method = 'GET', targetPort = port) {
   return new Promise((resolve, reject) => {
-    const outgoing = httpRequest({ host: '127.0.0.1', port, path, method }, (incoming) => {
+    const outgoing = httpRequest({ host: '127.0.0.1', port: targetPort, path, method }, (incoming) => {
       const chunks = [];
       incoming.on('data', (chunk) => chunks.push(chunk));
       incoming.on('end', () => {
@@ -97,6 +99,13 @@ for (const path of [
   '/v1/pisano/0',
   '/v1/pisano/100001',
   '//evil.invalid/healthz',
+  '/\\evil.invalid/healthz',
+  '/v1/terms/../pisano/10',
+  '/v1/./terms/5',
+  '/%2e%2e/healthz',
+  '/v1/%2E%2E/healthz',
+  '/healthz#fragment',
+  '/healthz?',
   `/healthz?padding=${'a'.repeat(600)}`,
 ]) {
   test(`rejects ${path.slice(0, 48)}`, async () => {
@@ -123,6 +132,43 @@ test('HEAD returns headers without a body', async () => {
   assert.equal(status, 200);
   assert.equal(text, '');
   assert.ok(Number(headers['content-length']) > 0);
+});
+
+test('unexpected errors return a generic 500 and are logged', async () => {
+  const logged = [];
+  const failing = createApiServer({
+    logError: (error) => logged.push(error.message),
+    resolve: () => () => {
+      throw new Error('internal detail');
+    },
+  });
+  await new Promise((resolve) => failing.listen(0, '127.0.0.1', resolve));
+  const { status, text, headers } = await send('/healthz', 'GET', failing.address().port);
+  failing.closeAllConnections();
+  await new Promise((resolve) => failing.close(resolve));
+  assert.equal(status, 500);
+  assert.deepEqual(JSON.parse(text), { error: 'internal server error' });
+  assert.equal(headers['x-content-type-options'], 'nosniff');
+  assert.deepEqual(logged, ['internal detail']);
+});
+
+test('an incomplete request is closed soon after the headers timeout', async () => {
+  const guarded = createApiServer();
+  guarded.headersTimeout = 200;
+  await new Promise((resolve) => guarded.listen(0, '127.0.0.1', resolve));
+  const socket = connect(guarded.address().port, '127.0.0.1');
+  socket.on('error', () => {});
+  socket.resume();
+  socket.write('GET /healthz HTTP/1.1\r\nHost: localhost\r\nX-Partial: ');
+  const startedAt = performance.now();
+  const closed = once(socket, 'close');
+  const deadline = new Promise((resolve) => setTimeout(resolve, 5_000).unref());
+  await Promise.race([closed, deadline]);
+  const elapsed = performance.now() - startedAt;
+  socket.destroy();
+  guarded.closeAllConnections();
+  await new Promise((resolve) => guarded.close(resolve));
+  assert.ok(elapsed < 3_000, `socket stayed open for ${Math.round(elapsed)} ms`);
 });
 
 test('server configuration defaults to loopback', () => {
