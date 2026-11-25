@@ -1,4 +1,4 @@
-# sigularesEnFivona
+# fibonacci-parity
 
 Exact Fibonacci parity analysis in dependency-free Node.js, available as a library, a CLI, and an input-validated read-only HTTP API.
 
